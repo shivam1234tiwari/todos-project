@@ -3,7 +3,10 @@ import User from '../models/User.js'
 import bcrypt from 'bcrypt'
 export const register=async(req,res)=>{
     try{
-
+const {username,email,password,role,address}=req.body;
+if(!username || !email ||!password || !role ||! address){
+    res.status(400).json({message:"All Fields are Required"});
+}
     }catch(error){}
 }
 export const login=async(req,res)=>{
