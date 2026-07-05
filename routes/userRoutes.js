@@ -1,4 +1,5 @@
 import express from 'express';
+import {authMiddleware} from '../middleware/authMiddleware.js'
 import { register,login,singleuser,profile,allUser,updateUser,deleteUser } from '../controllers/authController.js';
 const route=express.Router();
 

@@ -1,21 +1,14 @@
 import express from "express";
+import {newTodo,alltodos,edittodo,deleteTodos} from '../controllers/todoController.js'
 
 const route = express.Router();
 
-route.get("/todo", (req, res) => {
-    res.send("Get Todos");
-});
+route.get("/todo",alltodos);
 
-route.post("/todo", (req, res) => {
-    res.send("Create Todo");
-});
+route.post("/todo",newTodo);
 
-route.put("/todo/:id", (req, res) => {
-    res.send("Update Todo");
-});
+route.put("/todo/:id", edittodo);
 
-route.delete("/todo/:id", (req, res) => {
-    res.send("Delete Todo");
-});
+route.delete("/todo/:id",deleteTodos);
 
 export default route;
