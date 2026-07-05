@@ -1,10 +1,10 @@
 import express from "express";
-import {newTodo,alltodos,edittodo,deleteTodos} from '../controllers/todoController.js'
+import {newTodo,alltodos,onetodo,edittodo,deleteTodos} from '../controllers/todoController.js'
 
 const route = express.Router();
 
 route.get("/todo",alltodos);
-
+route.get('/todo/:id',onetodo);
 route.post("/todo",newTodo);
 
 route.put("/todo/:id", edittodo);

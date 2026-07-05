@@ -45,9 +45,30 @@ export const alltodos=async(req,res)=>{
         })
     }
 }
+export const onetodo=async(req,res)=>{
+    try{
+        const Singletodo=await Todo.findOne(req.body.id);
+        if(!Singletodo){
+            return res.status(402).json({
+                success:false,
+                message:"Not Found"
+            })
+        }
+        return res.status(200).json({
+            success:true,
+            message:"Todo Found"
+        })
+    }catch(error){
+         return res.status(500).json({
+             success: false,
+            message: error.message
+        })
+    }
+}
+
 export const edittodo=async(req,res)=>{
      try{
-        const {id}=req.body;
+        const {id}=req.params;
         const updatetodo=await Todo.findByIdAndUpdate(
             id,
             req.body,
@@ -66,6 +87,15 @@ export const edittodo=async(req,res)=>{
 }
 export const deleteTodos=async(req,res)=>{
      try{
+        const {id}=req.params;
+        const removetodos=await Todo.findByIdAndDelete(
+            id,
+            req.body
+        )
+        return res.status(200).json({
+            success:true,
+            message:"todo Delete successfull"
+        })
     }catch(error){
          return res.status(500).json({
              success: false,
