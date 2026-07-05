@@ -2,6 +2,12 @@ import Todo from "../models/Todo.js";
 export const newTodo = async (req, res) => {
   try {
     const { title, description } = req.body;
+    if (!title || !description) {
+  return res.status(400).json({
+    success: false,
+    message: "Title and description are required",
+  });
+}
     const existtodo = await Todo.findOne({ title });
     if (existtodo) {
       return res.status(400).json({
@@ -46,9 +52,9 @@ export const alltodos = async (req, res) => {
 export const onetodo = async (req, res) => {
   try {
     const { id } = req.params;
-    const Singletodo = await Todo.findOne(id);
+    const Singletodo = await Todo.findById(id);
     if (!Singletodo) {
-      return res.status(402).json({
+      return res.status(404).json({
         success: false,
         message: "Not Found",
       });
@@ -88,7 +94,7 @@ export const deleteTodos = async (req, res) => {
   try {
     const { id } = req.params;
     const removetodos = await Todo.findByIdAndDelete(id,);
-    if (!removetodo) {
+    if (!removetodos) {
       return res.status(404).json({
         success: false,
         message: "Todo not found",
