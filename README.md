@@ -1,102 +1,80 @@
-"# todos-project" 
-#  Todo List REST API
+# 🚀 Todo List REST API
 
-A secure and scalable **Todo List REST API** built with **Node.js**, **Express.js**, **MongoDB**, and **JWT Authentication**. This project provides user authentication, authorization, and CRUD operations for user management. It follows RESTful API principles and uses industry-standard security practices such as password hashing with **bcrypt** and authentication using **JSON Web Tokens (JWT)**.
-
-<!-- todos all features -->
-## ✨ Features
-
-* 🔐 User Registration
-* 🔑 User Login with JWT Authentication
-* 👤 User Profile API
-* 📋 Get All Users
-* 🔍 Get Single User
-* ✏️ Update User
-* 🗑️ Delete User
-* 🔒 Password Hashing using bcrypt
-* ✅ Input Validation
-* 🌍 Environment Variable Support
-* 📦 RESTful API Architecture
-
-<!-- tech stack using for this project -->
-##  Tech Stack
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* JWT (jsonwebtoken)
-* bcrypt - for password hashing and decrypt
-* dotenv - for enviroment configuration
-* Nodemon
+A RESTful Todo List API built with **Node.js**, **Express.js**, **MongoDB**, **Mongoose**, **JWT Authentication**, and **Role-Based Authorization**.
 
 ---
 
-# 📁 Project Structure
+#  Project Structure
 
-```text
+```
 todo-list-api/
 │
 ├── config/
 │   └── db.js
 │
 ├── controllers/
-│   └── authController.js
+│   ├── authController.js
+│   ├── todoController.js
+│   └── adminController.js
 │
 ├── middleware/
-│   └── authMiddleware.js
+│   ├── authMiddleware.js
+│   └── adminMiddleware.js
 │
 ├── models/
-│   └── userModel.js
+│   ├── User.js
+│   └── Todo.js
 │
 ├── routes/
 │   ├── userRoutes.js
-│   └── todoRoutes.js
+│   ├── todoRoutes.js
+│   └── adminRoutes.js
 │
 ├── .env
-├── app.js
+├── index.js
 ├── package.json
 └── README.md
 ```
 
 ---
 
-# ⚙️ Installation
+#  Installation
 
-### Clone Repository
+Clone the repository
 
 ```bash
 git clone https://github.com/username/todos-project.git
 ```
 
-### Move into Project
+Move to project
 
 ```bash
-cd todos-project
+cd todo-list-api
 ```
 
-### Install Dependencies
+Install dependencies
 
 ```bash
 npm install
 ```
 
-### Start Development Server
+Run project
+
+```bash
+npm start
+```
+
+or
 
 ```bash
 npm run dev
 ```
 
-Server will start at:
-
-```text
-http://localhost:8000
-```
-
 ---
 
-# 🌍 Environment Variables
+#  Environment Variables
 
-Create a `.env` file in the root directory.
+Create a `.env` file.
 
 ```env
 PORT=8000
@@ -108,58 +86,64 @@ JWT_SECRET=your_secret_key
 
 ---
 
-# 🔑 Authentication
+#  Base URL
 
-Protected routes require a JWT token.
+```
+http://localhost:8000/api
+```
 
-Example Header
+---
 
-```http
+#  Authentication
+
+Protected APIs require JWT Token.
+
+Header
+
+```
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
 ---
 
-# 📌 API Endpoints
+#  User APIs
 
-## Authentication
+## Register User
 
-| Method | Endpoint                   | Description         |
-| ------ | -------------------------- | ------------------- |
-| POST   | `/api/auth/users/register` | Register a new user |
-| POST   | `/api/auth/users/login`    | Login user          |
+**POST**
 
----
-
-## User APIs
-
-| Method | Endpoint              | Description            |
-| ------ | --------------------- | ---------------------- |
-| GET    | `/api/auth/users`     | Get all users          |
-| GET    | `/api/auth/users/:id` | Get single user        |
-| PUT    | `/api/auth/users/:id` | Update user            |
-| DELETE | `/api/auth/users/:id` | Delete user            |
-| GET    | `/api/auth/profile`   | Logged-in user profile |
-
----
-
-# 📤 Register User
-
-### Endpoint
-
-```http
-POST /api/auth/users/register
+```
+/api/auth/users/register
 ```
 
-### Request Body
+### Body
 
 ```json
 {
-    "username": "Rahul Tiwari",
-    "email": "rahul@gmail.com",
-    "password": "Rahul@123",
-    "role": "user",
-    "address": "Pune"
+    "username":"Rahul Tiwari",
+    "email":"rahul@gmail.com",
+    "password":"Rahul@123",
+    "role":"user",
+    "address":"Pune"
+}
+```
+
+---
+
+## Login User
+
+**POST**
+
+```
+/api/auth/users/login
+```
+
+### Body
+
+```json
+{
+    "email":"rahul@gmail.com",
+    "password":"Rahul@123"
 }
 ```
 
@@ -167,104 +151,237 @@ POST /api/auth/users/register
 
 ```json
 {
-    "message": "User registered successfully",
-    "user": {
-        "_id": "...",
-        "username": "Rahul Tiwari",
-        "email": "rahul@gmail.com",
-        "role": "user",
-        "address": "Pune"
-    }
+    "success":true,
+    "message":"Login Successful",
+    "token":"JWT_TOKEN"
 }
 ```
 
 ---
 
-# 🔑 Login User
+## Get All Users
 
-### Endpoint
+**GET**
 
-```http
-POST /api/auth/users/login
+```
+/api/auth/users
 ```
 
-### Request Body
+---
+
+## Get Single User
+
+**GET**
+
+```
+/api/auth/users/:id
+```
+
+Example
+
+```
+/api/auth/users/687a4f7d98af0c18b8c88b91
+```
+
+---
+
+## Update User
+
+**PUT**
+
+```
+/api/auth/users/:id
+```
+
+Body
 
 ```json
 {
-    "email": "rahul@gmail.com",
-    "password": "Rahul@123"
+    "username":"Rahul",
+    "address":"Mumbai"
 }
 ```
 
-### Response
+---
+
+## Delete User
+
+**DELETE**
+
+```
+/api/auth/users/:id
+```
+
+---
+
+## User Profile
+
+**GET**
+
+```
+/api/auth/profile
+```
+
+Header
+
+```
+Authorization: Bearer JWT_TOKEN
+```
+
+---
+
+# ✅ Todo APIs
+
+## Create Todo
+
+**POST**
+
+```
+/api/todo
+```
+
+### Body
 
 ```json
 {
-    "message": "Login successful",
-    "token": "JWT_TOKEN"
+    "title":"Learn Express",
+    "description":"Complete CRUD APIs"
 }
 ```
 
 ---
 
-# 👤 User Profile
+## Get All Todos
 
-### Endpoint
+**GET**
 
-```http
-GET /api/auth/profile
 ```
-
-### Headers
-
-```http
-Authorization: Bearer YOUR_JWT_TOKEN
+/api/todo
 ```
 
 ---
 
-# 📊 HTTP Status Codes
+## Get Single Todo
 
-| Status Code | Meaning               |
-| ----------- | --------------------- |
-| 200         | OK                    |
-| 201         | Created               |
-| 400         | Bad Request           |
-| 401         | Unauthorized          |
-| 403         | Forbidden             |
-| 404         | Not Found             |
-| 500         | Internal Server Error |
+**GET**
+
+```
+/api/todo/:id
+```
+
+---
+
+## Update Todo
+
+**PUT**
+
+```
+/api/todo/:id
+```
+
+### Body
+
+```json
+{
+    "title":"Updated Todo",
+    "description":"Updated Description"
+}
+```
+
+---
+
+## Delete Todo
+
+**DELETE**
+
+```
+/api/todo/:id
+```
+
+---
+
+# 👑 Admin APIs
+
+> These APIs can only be accessed by users having **Admin** role.
+
+## Admin Dashboard
+
+**GET**
+
+```
+/api/admin/dashboard
+```
+
+Header
+
+```
+Authorization: Bearer JWT_TOKEN
+```
+
+---
+
+## HTTP Status Codes
+
+| Status | Description |
+|---------|-------------|
+|200|Success|
+|201|Created|
+|400|Bad Request|
+|401|Unauthorized|
+|403|Forbidden|
+|404|Not Found|
+|500|Internal Server Error|
 
 ---
 
 # 🔒 Security
 
-* Passwords are hashed using **bcrypt**
-* JWT Authentication
-* Environment variables managed using **dotenv**
-* Password is never returned in API responses
+- Password Hashing (bcrypt)
+- JWT Authentication
+- Protected Routes
+- Admin Middleware
+- Role Based Authorization
+- Environment Variables
+- MongoDB Validation
+
+---
+
+# 🛠 Tech Stack
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- dotenv
+- Nodemon
 
 ---
 
 # 🚀 Future Improvements
 
-* Todo CRUD APIs
-* Role-Based Authorization (Admin/User)
-* Refresh Token Authentication
-* Email Verification
-* Password Reset
-* Swagger/OpenAPI Documentation
-* Docker Support
-* Unit Testing (Jest)
-* API Rate Limiting
+- User Specific Todos
+- Todo Categories
+- Todo Status
+- Search Todos
+- Pagination
+- Swagger Documentation
+- Docker
+- Unit Testing
+- Refresh Token
+- Forgot Password
+- Email Verification
 
 ---
 
-## Author
+# 👨‍💻 Author
 
 **Rahul Tiwari**
 
-* MCA Student (2027)
-* Backend Developer (Node.js | Express.js | MongoDB)
-* Passionate about building secure and scalable REST APIs.
+MCA Student | Backend Developer
+
+### Connect With Me
+
+- GitHub : https://github.com/shivam1234tiwari
+- LinkedIn : https://www.linkedin.com/in/rahul-tiwari-421254255

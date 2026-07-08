@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import ConnectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js'
 import todoRoutes from './routes/todoRoutes.js';
+import adminRoutes from './routes/adminRoutes.js'
 
 const port = process.env.PORT || 8000;
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended:true}));
 
 app.use('/api/auth',userRoutes);
 app.use('/api/todo',todoRoutes);
+app.use('/api/admin',adminRoutes);
 app.get('/', (req, res) => {
   res.send('Welcome to todo-list');
 });
